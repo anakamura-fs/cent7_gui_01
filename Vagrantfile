@@ -18,5 +18,12 @@ Vagrant.configure("2") do |config|
     yum -y install epel-release
     yum -y groupinstall "X Window System" "Japanese Support"
     yum -y install lxqt-about lxqt-common lxqt-config lxqt-globalkeys lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-runner lxqt-session network-manager-applet nm-connection-editor pcmanfm-qt qterminal-qt5 openbox
+
+    systemctl get-default | grep graphical.target || (
+      echo change runlevel to GUI...
+      systemctl set-default graphical.target
+      echo REBOOT recommended.
+    )
+
   SHELL
 end
