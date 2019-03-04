@@ -19,5 +19,11 @@ Vagrant.configure("2") do |config|
     yum -y update
     yum -y groupinstall "X Window System" "Japanese Support" Xfce
 
+    systemctl get-default | grep graphical.target || (
+      echo change runlevel to GUI...
+      systemctl set-default graphical.target
+      echo REBOOT recommended.
+    )
+
   SHELL
 end
