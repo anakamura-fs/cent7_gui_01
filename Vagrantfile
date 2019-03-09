@@ -12,6 +12,8 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
     vb.memory = "2048"
+    vb.cpus = 2
+    vb.customize ["modifyvm", :id, "--ioapic", "on"] # I/O APICの有効化
   end
 
   config.vm.provision "shell", inline: <<-SHELL
@@ -19,17 +21,23 @@ Vagrant.configure("2") do |config|
     yum -y groupinstall "X Window System" "Japanese Support"
     yum -y install lxqt-about lxqt-common lxqt-config lxqt-globalkeys lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-runner lxqt-session network-manager-applet nm-connection-editor pcmanfm-qt qterminal-qt5 openbox
 
-    systemctl get-default | grep graphical.target || (
-      echo change runlevel to GUI...
-      systemctl set-default graphical.target
-      echo REBOOT recommended.
-    )
+    # 「CentOS7にxfce4をインストールする - Qiita」 https://qiita.com/n-yamanaka/items/cd02aa3f9737d66f42d3
+    yum -y install vlgothic-* ipa-gothic-fonts ipa-mincho-fonts ipa-pgothic-fonts ipa-pmincho-fonts
+
+    #systemctl get-default | grep graphical.target || (
+      #echo change runlevel to GUI...
+      #systemctl set-default graphical.target
+      #echo REBOOT recommended.
+    #)
 
   SHELL
 
   # for non root vagrant user
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
-    echo "exec startlxqt" > ~/.xinitrc
+    (
+      echo "export LANG=ja_JP.UTF-8"
+      echo "exec startlxqt"
+    ) > ~/.xinitrc
 
   SHELL
 end
