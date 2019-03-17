@@ -18,13 +18,14 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     yum -y install epel-release
-    yum -y update
-    yum -y groupinstall "X Window System" "Japanese Support" Xfce
+    # yum -y update # needed at first time
+    yum -y groupinstall "X Window System" "Japanese Support" Fonts Xfce "Input Methods"
 
     systemctl get-default | grep graphical.target || (
       #echo change runlevel to GUI...
       #systemctl set-default graphical.target
       #echo REBOOT recommended.
+      :
     )
 
     localectl status | grep "System Locale: LANG=ja_JP.UTF-8" || (
@@ -40,7 +41,15 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
     (
     echo "export LANG=ja_JP.UTF-8"
-    echo "exec startxfce4"
+    # echo "exec startxfce4"
+
+    # thank you: https://qiita.com/msakamoto_sf/items/bf2e37b22ae6694440c3
+    echo "export GTK_IM_MODULE=ibus"
+    echo "export XMODIFIERS=@im=ibus"
+    echo "export QT_IM_MODULE=ibus"
+    echo "ibus-daemon -drx"
+
+    echo "exec /usr/bin/xfce4-session"
     ) > ~/.xinitrc
   SHELL
 end
