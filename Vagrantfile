@@ -12,6 +12,8 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
     vb.memory = "2048"
+    vb.cpus = 2
+    vb.customize ["modifyvm", :id, "--ioapic", "on"] # I/O APIC‚Ì—LŒø‰»
   end
 
   config.vm.provision "shell", inline: <<-SHELL
