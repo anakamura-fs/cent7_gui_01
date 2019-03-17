@@ -15,6 +15,9 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-  	ls
+    yum -y install epel-release
+    yum -y update
+    yum -y groupinstall "X Window System" "Japanese Support" Xfce
+
   SHELL
 end
