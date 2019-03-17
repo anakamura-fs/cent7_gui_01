@@ -27,6 +27,12 @@ Vagrant.configure("2") do |config|
       #echo REBOOT recommended.
     )
 
+    localectl status | grep "System Locale: LANG=ja_JP.UTF-8" || (
+      localectl set-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
+      localectl set-keymap jp106
+      #localectl set-x11-keymap jp
+    )
+
     yum install -y vlgothic-* ipa-gothic-fonts ipa-mincho-fonts ipa-pgothic-fonts ipa-pmincho-fonts ibus-kkc
   SHELL
 
