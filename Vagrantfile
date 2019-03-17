@@ -32,7 +32,9 @@ Vagrant.configure("2") do |config|
 
   # for non root vagrant user
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
-    export LANG=ja_JP.UTF-8
-    echo "exec startxfce4" > ~/.xinitrc
+    (
+    echo "export LANG=ja_JP.UTF-8"
+    echo "exec startxfce4"
+    ) > ~/.xinitrc
   SHELL
 end
