@@ -26,4 +26,10 @@ Vagrant.configure("2") do |config|
     )
 
   SHELL
+
+  # for non root vagrant user
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    echo "exec startxfce4" > ~/.xinitrc
+
+  SHELL
 end
