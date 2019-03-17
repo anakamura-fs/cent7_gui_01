@@ -22,9 +22,9 @@ Vagrant.configure("2") do |config|
     yum -y groupinstall "X Window System" "Japanese Support" Xfce
 
     systemctl get-default | grep graphical.target || (
-      echo change runlevel to GUI...
-      systemctl set-default graphical.target
-      echo REBOOT recommended.
+      #echo change runlevel to GUI...
+      #systemctl set-default graphical.target
+      #echo REBOOT recommended.
     )
 
     yum install -y vlgothic-* ipa-gothic-fonts ipa-mincho-fonts ipa-pgothic-fonts ipa-pmincho-fonts ibus-kkc
