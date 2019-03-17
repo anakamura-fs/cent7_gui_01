@@ -27,11 +27,12 @@ Vagrant.configure("2") do |config|
       echo REBOOT recommended.
     )
 
+    yum install -y vlgothic-* ipa-gothic-fonts ipa-mincho-fonts ipa-pgothic-fonts ipa-pmincho-fonts ibus-kkc
   SHELL
 
   # for non root vagrant user
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    export LANG=ja_JP.UTF-8
     echo "exec startxfce4" > ~/.xinitrc
-
   SHELL
 end
