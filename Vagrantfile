@@ -38,6 +38,11 @@ Vagrant.configure("2") do |config|
       systemctl start docker
       systemctl enable docker
     )
+    which docker-compose || (
+      curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+
+    )
+
   SHELL
 
   # for non root vagrant user
