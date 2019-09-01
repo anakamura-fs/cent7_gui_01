@@ -31,6 +31,13 @@ Vagrant.configure("2") do |config|
       #echo REBOOT recommended.
     #)
 
+    which docker || (
+      yum install -y yum-utils device-mapper-persistent-data lvm2
+      yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      yum install -y docker-ce docker-ce-cli containerd.io
+      systemctl start docker
+      systemctl enable docker
+    )
   SHELL
 
   # for non root vagrant user
